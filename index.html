@@ -85,44 +85,44 @@
   </div>
 
   <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>
-    // Initialize EmailJS with your Public Key
-    emailjs.init("dcXh3C-JmfcsSOOIb");
+ <script>
+  document.getElementById("request-form").addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    document.getElementById("request-form").addEventListener("submit", function (event) {
-      event.preventDefault();
+    const formats = Array.from(document.querySelectorAll('input[name="format"]:checked'))
+      .map(input => input.value)
+      .join(", ") || "None selected";
 
-      // Collect checked formats
-      const formats = Array.from(document.querySelectorAll('input[name="format"]:checked'))
-        .map(input => input.value)
-        .join(", ") || "None selected";
+    const formData = {
+      school: document.getElementById("school").value,
+      grade: document.getElementById("grade").value,
+      subject: document.getElementById("subject").value,
+      topic: document.getElementById("topic").value,
+      format: formats,
+      notes_pages: document.getElementById("notes_pages").value,
+      papers_pages: document.getElementById("papers_pages").value,
+      email: document.getElementById("email").value
+    };
 
-      // Prepare form data
-      const formData = {
-        school: document.getElementById("school").value,
-        grade: document.getElementById("grade").value,
-        subject: document.getElementById("subject").value,
-        topic: document.getElementById("topic").value,
-        format: formats,
-        notes_pages: document.getElementById("notes_pages").value,
-        papers_pages: document.getElementById("papers_pages").value,
-        email: document.getElementById("email").value
-      };
-
-      // Send email using EmailJS
-      emailjs.send("service_h4lqsa6", "template_zxwaykn", formData)
-        .then(() => {
-          document.getElementById("form-message").classList.remove("hidden");
-          document.getElementById("form-error").classList.add("hidden");
-          document.getElementById("request-form").reset();
-        })
-        .catch((error) => {
-          console.error("EmailJS error:", error);
-          document.getElementById("form-error").classList.remove("hidden");
-          document.getElementById("form-message").classList.add("hidden");
-        });
+    fetch("https://YOUR-BACKEND-URL.com/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("form-message").classList.remove("hidden");
+      document.getElementById("form-error").classList.add("hidden");
+      document.getElementById("request-form").reset();
+    })
+    .catch(err => {
+      console.error("Backend error:", err);
+      document.getElementById("form-error").classList.remove("hidden");
+      document.getElementById("form-message").classList.add("hidden");
     });
-  </script>
+  });
+</script>
 </body>
 </html>
