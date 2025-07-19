@@ -88,7 +88,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
     // Initialize EmailJS with your Public Key
-    emailjs.init("YOUR_PUBLIC_KEY");
+    emailjs.init("dcXh3C-JmfcsSOOIb");
 
     document.getElementById("request-form").addEventListener("submit", function (event) {
       event.preventDefault();
@@ -111,7 +111,7 @@
       };
 
       // Send email using EmailJS
-      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", formData)
+      emailjs.send("service_h4lqsa6", "template_zxwaykn", formData)
         .then(() => {
           document.getElementById("form-message").classList.remove("hidden");
           document.getElementById("form-error").classList.add("hidden");
